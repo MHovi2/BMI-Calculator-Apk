@@ -30,7 +30,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_toLeftOf="@id/centerverticalline"
-        android:background="@drawable/malefemalefocus"
+        android:background="@drawable/malefemalenotfous"
         android:layout_above="@id/heightlayout"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
@@ -328,6 +328,7 @@
             android:layout_below="@+id/txtgender"
             android:layout_marginTop="15dp"
             android:id="@+id/txtbmicondition"/>
+
 
 
     </RelativeLayout>

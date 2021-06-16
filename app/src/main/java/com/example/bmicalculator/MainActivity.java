@@ -3,26 +3,42 @@ package com.example.bmicalculator;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     //Variables....
     android.widget.Button mcalculatebmi;
+
     TextView mcurrentheight;
     TextView mcurrentweight,mcurrentage;
+    TextView mbmipoint,mbmiconditon,mbmigender;
+
     ImageView minccurrentweight,minccurrentage,mdeccurrentweight,mdeccurrentage;
+
     SeekBar mseekbarheight;
     RelativeLayout mmale,mfemale;
 
     int intweight = 56;
     int intage = 21;
     int currentprogress;
+
+    float fbmi;
+    float fweight;
+    float fheight;
+    float fage;
+
+    String sbmi;
+    String sweight;
+    String sheight;
+    String sage;
 
     String mintprogress = "170";
     String typeofuser = "0";
@@ -41,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
         mcurrentage=findViewById(R.id.currentage);
         mcurrentheight=findViewById(R.id.currentheight);
 
+        mbmipoint=findViewById(R.id.txtbmipoint);
+        mbmiconditon=findViewById(R.id.txtbmicondition);
+        mbmigender=findViewById(R.id.txtgender);
+        //................
         mdeccurrentweight=findViewById(R.id.weightminus);
         mdeccurrentage=findViewById(R.id.ageminus);
 
@@ -152,6 +172,71 @@ public class MainActivity extends AppCompatActivity {
                 //Set the text in view..
                 mcurrentage.setText(age2);
 
+            }
+        });
+
+        //BMI calculation Button
+        mcalculatebmi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Program for checking all field is not empty ..
+                if (typeofuser.equals("0")){
+                    Toast.makeText(getApplicationContext(),"Select Your Gender First",Toast.LENGTH_SHORT).show();
+                }
+                else if (mintprogress.equals("0")){
+                    Toast.makeText(getApplicationContext(),"Select Your Height",Toast.LENGTH_SHORT).show();
+                }
+                else if (intage==0 || intage<0){
+                    Toast.makeText(getApplicationContext(),"Your Age Is Incorrect",Toast.LENGTH_SHORT).show();
+                }
+                else if (intweight==0 || intweight<0){
+                    Toast.makeText(getApplicationContext(),"Your Weight Is Incorrect",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    sweight=mcurrentweight.getText().toString();
+                    sheight=mcurrentheight.getText().toString();
+                    sage=mcurrentage.getText().toString();
+
+                    fweight=Float.parseFloat(sweight);
+                    fheight=Float.parseFloat(sheight);
+                    fage=Float.parseFloat(sage);
+
+                    fheight=fheight/100;
+
+                    fbmi=fweight/(fheight*fheight);
+
+                    //Condition for BMI Condition ..
+                    if (fbmi<16){
+                        mbmiconditon.setText("Severe Thinness");
+                        mbmiconditon.setTextColor(Color.RED);
+                    }
+                    else if (fbmi<16.9 && fbmi>16){
+                        mbmiconditon.setText("Moderate Thinness");
+                        mbmiconditon.setTextColor(Color.RED);
+                    }
+                    else if (fbmi<18.4 && fbmi>17){
+                        mbmiconditon.setText("Mild Thinness");
+                        mbmiconditon.setTextColor(Color.RED);
+                    }
+                    else if (fbmi<25 && fbmi>18.4){
+                        mbmiconditon.setText("Normal");
+                        mbmiconditon.setTextColor(Color.GREEN);
+                    }
+                    else if (fbmi<40 && fbmi>25){
+                        mbmiconditon.setText("Overweight");
+                        mbmiconditon.setTextColor(Color.RED);
+                    }
+                    else{
+                        mbmiconditon.setText("Extra weight");
+                        mbmiconditon.setTextColor(Color.RED);
+                    }
+
+                    sbmi=Float.toString(fbmi);
+                    mbmipoint.setText(sbmi);
+                    mbmigender.setText(typeofuser);
+
+
+                }
             }
         });
 
